@@ -1,0 +1,25 @@
+{
+  "name": "outdoorgame_sherlock",
+  "version": "1.0.0",
+  "description": "Serveur-side of an outdoor game. Sherlock Holmes–style investigation",
+  "keywords": [
+    "outdoor",
+    "game",
+    "investigation"
+  ],
+  "homepage": "https://github.com/ludoarena/outdoorgame_sherlock#readme",
+  "bugs": {
+    "url": "https://github.com/ludoarena/outdoorgame_sherlock/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ludoarena/outdoorgame_sherlock.git"
+  },
+  "license": "ISC",
+  "author": "Ludovic Tambour",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  }
+}
