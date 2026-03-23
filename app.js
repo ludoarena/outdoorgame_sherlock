@@ -12,6 +12,10 @@ const port = 3000;
 app
   .use(favicon(__dirname + "/public/favicon_investigation.jpg"))
   .use(morgan("dev"))
+  .use((req, res, next) => {
+    console.log("Content-Type:", req.headers["content-type"]);
+    next();
+  })
   .use(bodyParser.json());
 
 app.get("/", (req, res) => res.send("Hello, Express dans local host 2"));
@@ -34,6 +38,8 @@ app.get("/api/users/:id", (req, res) => {
 app.post("/api/users/", (req, res) => {
   const id = getUniqueID(USERS);
   const newUser = { ...req.body, ...{ id: id } };
+  console.log(`req = ${req.body}`);
+  console.log(`${JSON.stringify(newUser)}`);
   USERS.push(newUser);
   const message = `Success to create the new user ${newUser.name}`;
   res.json(success(message, newUser));
@@ -45,11 +51,22 @@ app.put("/api/users/:id", (req, res) => {
   const userIndex = USERS.findIndex((user) => +user.id === id);
 
   const updatedUser = { ...req.body, ...{ id: id } };
-  console.log(`${JSON.stringify(updatedUser)}`);
   USERS[userIndex] = updatedUser;
 
   const message = `{Success to update the user ${updatedUser.name}; id : ${id}}`;
   res.json(success(message, updatedUser));
+});
+
+// DELETE : delete a user
+app.delete("/api/users/:id", (req, res) => {
+  const id = +req.params.id;
+  const userIndex = USERS.findIndex((user) => +user.id === id);
+  const deletedUser = USERS[userIndex];
+
+  USERS.splice(userIndex, 1);
+
+  const message = `{Success to delete the user ${deletedUser.name}; id : ${id}}`;
+  res.json(success(message, deletedUser));
 });
 
 // launch the server on port 3000
