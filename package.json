@@ -20,7 +20,7 @@
   "type": "commonjs",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon --inspect app.js"
   },
   "dependencies": {
     "body-parser": "^2.2.2",
