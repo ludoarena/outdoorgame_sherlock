@@ -2,11 +2,33 @@ const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const favicon = require("serve-favicon");
+const { Sequelize } = require("sequelize");
 const { success, getUniqueID } = require("./helper.js");
 let USERS = require("./mock-user.js");
 
 const app = express();
 const port = 3000;
+
+// Client for database
+require("dotenv").config();
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    port: parseInt(process.env.DB_PORT, 10) || 3306,
+    dialect: "postgres",
+    logging: console.log,
+  },
+);
+
+sequelize
+  .authenticate()
+  .then((_) => console.log(`Success to connect the database`))
+  .catch((error) =>
+    console.error(`Impossible to connect the database : ${error}`),
+  );
 
 // Middleware
 app
