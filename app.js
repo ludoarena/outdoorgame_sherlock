@@ -1,9 +1,16 @@
 const express = require("express");
+const morgan = require("morgan");
+const favicon = require("serve-favicon");
 const { success } = require("./helper.js");
 let USERS = require("./mock-user.js");
 
 const app = express();
 const port = 3000;
+
+// Middleware
+app
+  .use(favicon(__dirname + "/public/favicon_investigation.jpg"))
+  .use(morgan("dev"));
 
 app.get("/", (req, res) => res.send("Hello, Express dans local host 2"));
 
