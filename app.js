@@ -38,6 +38,13 @@ require("@routes/createUser")(app);
 require("@routes/updateUser")(app);
 require("@routes/deleteUser")(app);
 
+// Manage error 404
+app.use(({ res }) => {
+  const message =
+    "Unable to find the requested resource. You can try another URL.";
+  res.status(404).json({ message });
+});
+
 // launch the server on port 3000
 app
   .listen(port)
