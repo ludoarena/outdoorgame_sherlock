@@ -1,30 +1,14 @@
+require("module-alias/register");
 const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const favicon = require("serve-favicon");
-const { Sequelize, DataTypes } = require("sequelize");
-const { success, getUniqueID } = require("./helper.js");
-const userModel = require("./src/models/user.js");
-
-let USERS = require("./mock-user.js");
+const Sequelize = require("@database/sequelize");
 
 const app = express();
 const port = 3000;
 
-// Create client for database
-require("dotenv").config();
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    port: parseInt(process.env.DB_PORT, 10) || 3306,
-    dialect: "postgres",
-    logging: console.log,
-  },
-);
-
+/*
 // Connection to the database
 sequelize
   .authenticate()
@@ -32,25 +16,7 @@ sequelize
   .catch((error) =>
     console.error(`Impossible to connect the database : ${error}`),
   );
-
-// synchronization models <-> BDD and populate the database with sample
-const User = userModel(sequelize, DataTypes);
-
-sequelize.sync({ force: true }).then((_) => {
-  console.log(`The database "User" is synchronized`);
-
-  USERS.map((user) => {
-    User.create({
-      first_name: user.firstName,
-      name: user.name,
-      email: user.email,
-    }).then((newUser) =>
-      console.log(
-        `create new user ${JSON.stringify(newUser.toJSON(), null, 2)}`,
-      ),
-    );
-  });
-});
+*/
 
 // Middleware
 app
@@ -62,6 +28,13 @@ app
   })
   .use(bodyParser.json());
 
+// create and initialize the database with sample data
+Sequelize.initializeDataBase();
+
+// TODO : modify ASAP endpoint to connect with database.
+// Previously, data coming from a mock in JS.
+// Previous code keeps in comment to make easier the future changes
+/*
 app.get("/", (req, res) => res.send("Hello, Express dans local host 2"));
 
 // GET ALL USERS
@@ -112,6 +85,7 @@ app.delete("/api/users/:id", (req, res) => {
   const message = `{Success to delete the user ${deletedUser.name}; id : ${id}}`;
   res.json(success(message, deletedUser));
 });
+  */
 
 // launch the server on port 3000
 app

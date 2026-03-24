@@ -7,6 +7,10 @@
     "game",
     "investigation"
   ],
+  "_moduleAliases": {
+    "@models": "src/models",
+    "@database": "src/database"
+  },
   "homepage": "https://github.com/ludoarena/outdoorgame_sherlock#readme",
   "bugs": {
     "url": "https://github.com/ludoarena/outdoorgame_sherlock/issues"
@@ -26,6 +30,7 @@
     "body-parser": "^2.2.2",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
+    "module-alias": "^2.3.4",
     "pg": "^8.20.0",
     "sequelize": "^6.37.8",
     "serve-favicon": "^2.5.1"
