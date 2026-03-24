@@ -33,12 +33,24 @@ sequelize
     console.error(`Impossible to connect the database : ${error}`),
   );
 
-// synchronization models <-> BDD
-const user = userModel(sequelize, DataTypes);
+// synchronization models <-> BDD and populate the database with sample
+const User = userModel(sequelize, DataTypes);
 
-sequelize
-  .sync({ force: true })
-  .then((_) => console.log(`The database "User" is synchronized`));
+sequelize.sync({ force: true }).then((_) => {
+  console.log(`The database "User" is synchronized`);
+
+  USERS.map((user) => {
+    User.create({
+      first_name: user.firstName,
+      name: user.name,
+      email: user.email,
+    }).then((newUser) =>
+      console.log(
+        `create new user ${JSON.stringify(newUser.toJSON(), null, 2)}`,
+      ),
+    );
+  });
+});
 
 // Middleware
 app
