@@ -2,14 +2,16 @@ const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const favicon = require("serve-favicon");
-const { Sequelize } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 const { success, getUniqueID } = require("./helper.js");
+const userModel = require("./src/models/user.js");
+
 let USERS = require("./mock-user.js");
 
 const app = express();
 const port = 3000;
 
-// Client for database
+// Create client for database
 require("dotenv").config();
 const sequelize = new Sequelize(
   process.env.DB_NAME,
@@ -23,12 +25,20 @@ const sequelize = new Sequelize(
   },
 );
 
+// Connection to the database
 sequelize
   .authenticate()
   .then((_) => console.log(`Success to connect the database`))
   .catch((error) =>
     console.error(`Impossible to connect the database : ${error}`),
   );
+
+// synchronization models <-> BDD
+const user = userModel(sequelize, DataTypes);
+
+sequelize
+  .sync({ force: true })
+  .then((_) => console.log(`The database "User" is synchronized`));
 
 // Middleware
 app
