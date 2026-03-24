@@ -26,8 +26,8 @@ const initializeDataBase = () => {
 
     USERS.map((user) => {
       User.create({
-        first_name: user.firstName,
-        name: user.name,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
       }).then((newUser) =>
         console.log(

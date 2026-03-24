@@ -2,19 +2,19 @@ const USERS = [
   {
     id: 1,
     firstName: "Alice",
-    name: "Merveille",
+    lastName: "Merveille",
     email: "alice.merveille@gmail.com",
   },
   {
     id: 2,
     firstName: "Bernard",
-    name: "Nanard",
+    lastName: "Nanard",
     email: "bernard.nanard@gmail.com",
   },
   {
     id: 3,
     firstName: "Claude",
-    name: "Sonnet",
+    lastName: "Sonnet",
     email: "claude.sonnet@gmail.com",
   },
 ];

@@ -7,13 +7,15 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      name: {
+      lastName: {
         type: DataTypes.STRING,
         allowNull: false,
+        field: "last_name",
       },
-      first_name: {
+      firstName: {
         type: DataTypes.STRING,
         allowNull: false,
+        field: "first_name",
       },
       email: {
         type: DataTypes.STRING,
