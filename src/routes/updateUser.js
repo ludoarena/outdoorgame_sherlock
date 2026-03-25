@@ -1,5 +1,5 @@
 const { User } = require("@database/sequelize");
-const { ValidationError } = require("sequelize");
+const { ValidationError, UniqueConstraintError } = require("sequelize");
 
 module.exports = (app) => {
   app.put("/api/users/:id", async (req, res) => {
@@ -21,6 +21,13 @@ module.exports = (app) => {
       const message = `Successfully updated the user ${user.firstName} ${user.lastName}`;
       res.json({ message, data: user });
     } catch (error) {
+      if (error instanceof UniqueConstraintError) {
+        return res.status(400).json({
+          message: "A user with this firstName and lastName already exists.",
+          data: error,
+        });
+      }
+
       if (error instanceof ValidationError) {
         return res.status(400).json({ message: error.message, data: error });
       }

@@ -44,6 +44,13 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       createdAt: "created",
       updatedAt: false,
+      indexes: [
+        {
+          name: "unique_fullname",
+          unique: true,
+          fields: ["last_name", "first_name"],
+        },
+      ],
     },
   );
 };
