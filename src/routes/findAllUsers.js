@@ -1,5 +1,5 @@
 const { User } = require("@database/sequelize");
-const { col } = require("sequelize");
+const { Op } = require("sequelize");
 
 module.exports = (app) => {
   app.get("/api/users", (req, res) => {
@@ -7,7 +7,7 @@ module.exports = (app) => {
       const searchedValue = req.query.last_name;
       return User.findAll({
         where: {
-          lastName: searchedValue,
+          lastName: { [Op.like]: `%${searchedValue}%` },
         },
       }).then((users) => {
         const message = `Il y a ${users.length} users qui correspondent au terme de la recherche`;
