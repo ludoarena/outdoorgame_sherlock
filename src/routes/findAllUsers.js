@@ -5,16 +5,25 @@ module.exports = (app) => {
   app.get("/api/users", (req, res) => {
     if (req.query.last_name) {
       const searchedValue = req.query.last_name;
-      return User.findAll({
+      const limit = parseInt(req.query.limit) || 20;
+
+      if (searchedValue.length < 2) {
+        const message = "The search term must contain at least 2 characters.";
+        return res.status(400).json({ message });
+      }
+
+      return User.findAndCountAll({
         where: {
           lastName: { [Op.like]: `%${searchedValue}%` },
         },
-      }).then((users) => {
-        const message = `Il y a ${users.length} users qui correspondent au terme de la recherche`;
-        res.json({ message, data: users });
+        order: ["lastName"],
+        limit: limit,
+      }).then(({ count, rows }) => {
+        const message = `Il y a ${count} users qui correspondent au terme de la recherche`;
+        res.json({ message, data: rows });
       });
     } else {
-      User.findAll()
+      User.findAll({ order: ["lastName"] })
         .then((users) => {
           const message = "The full list of users has been retrieved.";
           res.json({ message, data: users });
