@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const favicon = require("serve-favicon");
 const Sequelize = require("@database/sequelize");
+const cors = require("cors");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -14,7 +15,8 @@ app
     console.log("Content-Type:", req.headers["content-type"]);
     next();
   })
-  .use(bodyParser.json());
+  .use(bodyParser.json())
+  .use(cors);
 
 // create and initialize the database with sample data
 Sequelize.initializeDataBase();
