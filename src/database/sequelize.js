@@ -2,6 +2,11 @@ const { Sequelize, DataTypes } = require("sequelize");
 const userModel = require("@models/user.js");
 const USERS = require("@database/mock-user.js");
 
+// manage environment variable acording to stage
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV || "development"}`,
+});
+
 // Create client for database
 require("dotenv").config();
 const sequelize = new Sequelize(
@@ -21,7 +26,8 @@ const User = userModel(sequelize, DataTypes);
 
 // synchronization models <-> BDD and populate the database with sample
 const initializeDataBase = () => {
-  return sequelize.sync({ force: true }).then((_) => {
+  const forceSync = process.env.NODE_ENV === "development";
+  return sequelize.sync({ force: forceSync }).then((_) => {
     console.log(`The database "User" is synchronized`);
 
     USERS.map((user) => {

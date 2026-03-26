@@ -1,27 +1,15 @@
 require("module-alias/register");
 const express = require("express");
-const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const favicon = require("serve-favicon");
 const Sequelize = require("@database/sequelize");
 
 const app = express();
-const port = 3000;
-
-/*
-// Connection to the database
-sequelize
-  .authenticate()
-  .then((_) => console.log(`Success to connect the database`))
-  .catch((error) =>
-    console.error(`Impossible to connect the database : ${error}`),
-  );
-*/
+const port = process.env.PORT || 3000;
 
 // Middleware
 app
   .use(favicon(__dirname + "/public/favicon_investigation.jpg"))
-  .use(morgan("dev"))
   .use((req, res, next) => {
     console.log("Content-Type:", req.headers["content-type"]);
     next();
