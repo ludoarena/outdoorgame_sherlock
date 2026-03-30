@@ -16,7 +16,7 @@ app
     next();
   })
   .use(bodyParser.json())
-  .use(cors);
+  .use(cors());
 
 // create and initialize the database with sample data
 Sequelize.initializeDataBase();
