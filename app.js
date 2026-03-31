@@ -22,6 +22,7 @@ app
 Sequelize.initializeDataBase();
 
 // API endpoint
+require("@auth/login")(app);
 require("@routes/findAllUsers")(app);
 require("@routes/findUserByPk")(app);
 require("@routes/createUser")(app);

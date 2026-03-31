@@ -10,7 +10,8 @@
   "_moduleAliases": {
     "@models": "src/models",
     "@database": "src/database",
-    "@routes": "src/routes"
+    "@routes": "src/routes",
+    "@auth": "src/authentification"
   },
   "homepage": "https://github.com/ludoarena/outdoorgame_sherlock#readme",
   "bugs": {
