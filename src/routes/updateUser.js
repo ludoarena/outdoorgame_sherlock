@@ -1,12 +1,20 @@
 const { User } = require("@database/sequelize");
 const { ValidationError, UniqueConstraintError } = require("sequelize");
+const bcrypt = require("bcrypt");
 
 module.exports = (app) => {
   app.put("/api/users/:id", async (req, res) => {
     const id = req.params.id;
 
     try {
-      const [updatedRows] = await User.update(req.body, {
+      const updateData = { ...req.body };
+
+      if (updateData.password) {
+        const hashedPassword = await bcrypt.hash(updateData.password, 10);
+        updateData.password = hashedPassword;
+      }
+
+      const [updatedRows] = await User.update(updateData, {
         where: { id: id },
       });
 

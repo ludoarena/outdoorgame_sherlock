@@ -1,10 +1,13 @@
 const { User } = require("@database/sequelize");
 const { ValidationError, UniqueConstraintError } = require("sequelize");
+const bcrypt = require("bcrypt");
 
 module.exports = (app) => {
   app.post("/api/users", async (req, res) => {
     try {
-      const user = await User.create(req.body);
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      const userData = { ...req.body, password: hashedPassword };
+      const user = await User.create(userData);
 
       return res.status(201).json({
         message: `Success to create the new user ${user.firstName} ${user.lastName}`,

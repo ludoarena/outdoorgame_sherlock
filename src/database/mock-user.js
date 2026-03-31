@@ -1,10 +1,12 @@
+const bcrypt = require("bcrypt");
+
 const USERS = [
   {
     id: 1,
     firstName: "Alice",
     lastName: "Merveille",
     email: "alice.merveille@gmail.com",
-    password: "TODO",
+    password: bcrypt.hashSync("alice", 10),
     isAdmin: false,
   },
   {
@@ -12,7 +14,7 @@ const USERS = [
     firstName: "Bernard",
     lastName: "Nanard",
     email: "bernard.nanard@gmail.com",
-    password: "TODO",
+    password: bcrypt.hashSync("bernard", 10),
     isAdmin: false,
   },
   {
@@ -20,7 +22,7 @@ const USERS = [
     firstName: "Claude",
     lastName: "Sonnet",
     email: "claude.sonnet@gmail.com",
-    password: "TODO",
+    password: bcrypt.hashSync("claude", 10),
     isAdmin: false,
   },
   {
@@ -28,7 +30,7 @@ const USERS = [
     firstName: "Ludo",
     lastName: "Arena",
     email: "ludo.arena@gmail.com",
-    password: "TODO",
+    password: bcrypt.hashSync("ludo", 10),
     isAdmin: true,
   },
 ];
