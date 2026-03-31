@@ -2,26 +2,48 @@ const { User } = require("@database/sequelize");
 const { ValidationError, UniqueConstraintError } = require("sequelize");
 
 module.exports = (app) => {
-  app.post("/api/users", (req, res) => {
-    User.create(req.body)
-      .then((user) => {
-        const message = `Success to create the new user ${req.body.firstName} ${req.body.lastName}`;
-        res.json({ message, data: user });
-      })
-      .catch((error) => {
-        if (error instanceof UniqueConstraintError) {
-          return res.status(400).json({
-            message: "A user with this firstName and lastName already exists.",
-            data: error,
-          });
-        }
+  app.post("/api/users", async (req, res) => {
+    try {
+      const user = await User.create(req.body);
 
-        if (error instanceof ValidationError) {
-          return res.status(400).json({ message: error.message, data: error });
-        }
-        const message =
-          "The user could not be added. Please try again in a few moments.";
-        res.status(500).json({ message, data: error.message });
+      return res.status(201).json({
+        message: `Success to create the new user ${user.firstName} ${user.lastName}`,
+        data: user,
       });
+    } catch (error) {
+      if (error instanceof UniqueConstraintError) {
+        const constraintMap = {
+          Users_email_key: "This email is already in use",
+          unique_fullname: "This fullname is already in use",
+        };
+
+        const constraint = error.parent?.constraint;
+
+        const message =
+          constraintMap[constraint] ||
+          error.parent?.detail ||
+          "Duplicate value";
+
+        return res.status(400).json({
+          message,
+          data: error,
+        });
+      }
+
+      if (error instanceof ValidationError) {
+        const message = error.errors.map((e) => e.message).join(", ");
+
+        return res.status(400).json({
+          message,
+          data: error,
+        });
+      }
+
+      return res.status(500).json({
+        message:
+          "The user could not be added. Please try again in a few moments.",
+        data: error.message,
+      });
+    }
   });
 };

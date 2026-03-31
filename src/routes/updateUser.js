@@ -18,21 +18,40 @@ module.exports = (app) => {
 
       const user = await User.findByPk(id);
 
-      const message = `Successfully updated the user ${user.firstName} ${user.lastName}`;
-      res.json({ message, data: user });
+      return res.json({
+        message: `Successfully updated the user ${user.firstName} ${user.lastName}`,
+        data: user,
+      });
     } catch (error) {
       if (error instanceof UniqueConstraintError) {
+        const constraintMap = {
+          Users_email_key: "This email is already in use",
+          unique_fullname: "This fullname is already in use",
+        };
+
+        const constraint = error.parent?.constraint;
+
+        const message =
+          constraintMap[constraint] ||
+          error.parent?.detail ||
+          "Duplicate value";
+
         return res.status(400).json({
-          message: "A user with this firstName and lastName already exists.",
+          message,
           data: error,
         });
       }
 
       if (error instanceof ValidationError) {
-        return res.status(400).json({ message: error.message, data: error });
+        const message = error.errors.map((e) => e.message).join(", ");
+
+        return res.status(400).json({
+          message,
+          data: error,
+        });
       }
 
-      res.status(500).json({
+      return res.status(500).json({
         message:
           "The user could not be updated. Please try again in a few moments.",
         error: error.message,

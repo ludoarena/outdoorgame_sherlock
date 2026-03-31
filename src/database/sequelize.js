@@ -35,6 +35,8 @@ const initializeDataBase = () => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        password: user.password,
+        isAdmin: user.isAdmin,
       }).then((newUser) =>
         console.log(
           `create new user ${JSON.stringify(newUser.toJSON(), null, 2)}`,

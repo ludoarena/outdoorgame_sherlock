@@ -28,15 +28,30 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          isEmail: true,
-        },
+        unique: true,
         validate: {
           notNull: { msg: "The field 'email' is mandatory" },
           notEmpty: { msg: "The field 'email' cannot be empty" },
           isEmail: {
             msg: "Invalid email format. Expected format: name@domain.com (e.g., john.doe@gmail.com)",
           },
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "The field 'password' is mandatory" },
+          notEmpty: { msg: "The field 'password' cannot be empty" },
+        },
+      },
+      isAdmin: {
+        type: DataTypes.BOOLEAN,
+        field: "is_admin",
+        allowNull: false,
+        defaultValue: false,
+        validate: {
+          notNull: { msg: "The field 'isAdmin' is mandatory" },
         },
       },
     },
