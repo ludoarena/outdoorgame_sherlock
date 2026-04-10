@@ -1,9 +1,10 @@
 const { User } = require("@database/sequelize");
 const { ValidationError, UniqueConstraintError } = require("sequelize");
 const bcrypt = require("bcrypt");
+const auth = require("@auth/auth");
 
 module.exports = (app) => {
-  app.post("/api/users", async (req, res) => {
+  app.post("/api/users", auth, async (req, res) => {
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const userData = { ...req.body, password: hashedPassword };

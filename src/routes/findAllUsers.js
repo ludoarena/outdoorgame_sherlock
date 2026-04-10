@@ -1,8 +1,9 @@
 const { User } = require("@database/sequelize");
 const { Op } = require("sequelize");
+const auth = require("@auth/auth");
 
 module.exports = (app) => {
-  app.get("/api/users", (req, res) => {
+  app.get("/api/users", auth, (req, res) => {
     if (req.query.last_name) {
       const searchedValue = req.query.last_name;
       const limit = parseInt(req.query.limit) || 20;

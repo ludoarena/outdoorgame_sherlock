@@ -1,9 +1,10 @@
 const { User } = require("@database/sequelize");
 const { ValidationError, UniqueConstraintError } = require("sequelize");
 const bcrypt = require("bcrypt");
+const auth = require("@auth/auth");
 
 module.exports = (app) => {
-  app.put("/api/users/:id", async (req, res) => {
+  app.put("/api/users/:id", auth, async (req, res) => {
     const id = req.params.id;
 
     try {
