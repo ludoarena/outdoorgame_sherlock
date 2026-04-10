@@ -1,0 +1,48 @@
+{
+  "name": "outdoorgame_sherlock",
+  "version": "1.0.0",
+  "description": "Serveur-side of an outdoor game. Sherlock Holmes–style investigation",
+  "keywords": [
+    "outdoor",
+    "game",
+    "investigation"
+  ],
+  "_moduleAliases": {
+    "@models": "src/models",
+    "@database": "src/database",
+    "@routes": "src/routes",
+    "@auth": "src/authentification"
+  },
+  "homepage": "https://github.com/ludoarena/outdoorgame_sherlock#readme",
+  "bugs": {
+    "url": "https://github.com/ludoarena/outdoorgame_sherlock/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ludoarena/outdoorgame_sherlock.git"
+  },
+  "license": "ISC",
+  "author": "Ludovic Tambour",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node app.js",
+    "dev": "cross-env NODE_ENV=development nodemon --inspect app.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "module-alias": "^2.3.4",
+    "pg": "^8.20.0",
+    "sequelize": "^6.37.8",
+    "serve-favicon": "^2.5.1"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "nodemon": "^3.1.14"
+  }
+}

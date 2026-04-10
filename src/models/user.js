@@ -1,0 +1,71 @@
+module.exports = (sequelize, DataTypes) => {
+  return sequelize.define(
+    "User",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        field: "last_name",
+        validate: {
+          notNull: { msg: "The field 'lastName' is mandatory" },
+          notEmpty: { msg: "The field 'lastName' cannot be empty" },
+        },
+      },
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        field: "first_name",
+        validate: {
+          notNull: { msg: "The field 'firstName' is mandatory" },
+          notEmpty: { msg: "The field 'firstName' cannot be empty" },
+        },
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          notNull: { msg: "The field 'email' is mandatory" },
+          notEmpty: { msg: "The field 'email' cannot be empty" },
+          isEmail: {
+            msg: "Invalid email format. Expected format: name@domain.com (e.g., john.doe@gmail.com)",
+          },
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "The field 'password' is mandatory" },
+          notEmpty: { msg: "The field 'password' cannot be empty" },
+        },
+      },
+      isAdmin: {
+        type: DataTypes.BOOLEAN,
+        field: "is_admin",
+        allowNull: false,
+        defaultValue: false,
+        validate: {
+          notNull: { msg: "The field 'isAdmin' is mandatory" },
+        },
+      },
+    },
+    {
+      timestamps: true,
+      createdAt: "created",
+      updatedAt: false,
+      indexes: [
+        {
+          name: "unique_fullname",
+          unique: true,
+          fields: ["last_name", "first_name"],
+        },
+      ],
+    },
+  );
+};
